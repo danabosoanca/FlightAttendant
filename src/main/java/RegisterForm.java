@@ -2,11 +2,13 @@
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
+import java.sql.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
@@ -14,16 +16,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class RegisterForm extends JFrame {
-
+	static int nr_utilizatori = 0;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField txtCodMembru;
+	private JTextField adresa;
+	private JTextField nume;
+	private JTextField tel;
+	private JTextField user;
+	private JTextField codMembru;
+	private JPasswordField password;
 
 	/**
 	 * Launch the application.
@@ -82,34 +85,29 @@ public class RegisterForm extends JFrame {
 		lblParola.setBounds(75, 302, 101, 14);
 		contentPane.add(lblParola);
 		
-		textField = new JTextField();
-		textField.setBounds(213, 200, 160, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		adresa = new JTextField();
+		adresa.setBounds(213, 200, 160, 20);
+		contentPane.add(adresa);
+		adresa.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(213, 175, 160, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		nume = new JTextField();
+		nume.setBounds(213, 175, 160, 20);
+		contentPane.add(nume);
+		nume.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(213, 225, 160, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		tel = new JTextField();
+		tel.setBounds(213, 225, 160, 20);
+		contentPane.add(tel);
+		tel.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(213, 275, 160, 20);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		user = new JTextField();
+		user.setBounds(213, 275, 160, 20);
+		contentPane.add(user);
+		user.setColumns(10);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(213, 300, 160, 20);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
-		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("");
-		chckbxNewCheckBox.setBounds(213, 249, 21, 23);
-		contentPane.add(chckbxNewCheckBox);
+		final JCheckBox checkMembru = new JCheckBox("");
+		checkMembru.setBounds(213, 249, 21, 23);
+		contentPane.add(checkMembru);
 		
 		JLabel lblFormularDeInregistrare = new JLabel("Formular de inregistrare");
 		lblFormularDeInregistrare.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 18));
@@ -122,6 +120,35 @@ public class RegisterForm extends JFrame {
 		contentPane.add(lblNewLabel_1);
 		
 		JButton btnInregistrare = new JButton("Inregistrare");
+		btnInregistrare.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Connection conn = null;
+				try {
+					Class.forName("com.mysql.jdbc.Driver").newInstance();
+					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
+					String sql = "INSERT INTO utilizatori (nume, adresa, telefon, membru, username, password, id_utilizator) VALUES (?, ?, ?, ?, ?, ?, ?)" ;
+					PreparedStatement pst = conn.prepareStatement(sql);
+					pst.setString(1,nume.getText());
+					pst.setString(2, adresa.getText());
+					pst.setString(3,tel.getText());
+					int memb;
+					if(checkMembru.isSelected()) {
+						memb= 1;
+					}
+					else
+						memb = 0;
+					pst.setInt(4, memb);
+					pst.setString(5, user.getText());
+					pst.setString(6,new String(password.getPassword()));
+					pst.setInt(7, ++nr_utilizatori);
+					
+					pst.executeUpdate();
+					JOptionPane.showMessageDialog(null, "Bravo Tati");
+				}catch (Exception e) {
+					System.err.println(e);
+				}
+			}
+		});
 		btnInregistrare.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		btnInregistrare.setBounds(89, 357, 118, 23);
 		contentPane.add(btnInregistrare);
@@ -137,10 +164,15 @@ public class RegisterForm extends JFrame {
 		btnCancel.setBounds(240, 357, 118, 23);
 		contentPane.add(btnCancel);
 		
-		txtCodMembru = new JTextField();
-		txtCodMembru.setText("Cod Membru");
-		txtCodMembru.setBounds(240, 250, 133, 20);
-		contentPane.add(txtCodMembru);
-		txtCodMembru.setColumns(10);
+		codMembru = new JTextField();
+		codMembru.setText("Cod Membru");
+		codMembru.setBounds(240, 250, 133, 20);
+		contentPane.add(codMembru);
+		codMembru.setColumns(10);
+		
+		password = new JPasswordField();
+		password.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		password.setBounds(213, 300, 160, 20);
+		contentPane.add(password);
 	}
 }

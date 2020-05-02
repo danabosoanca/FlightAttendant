@@ -53,7 +53,8 @@ public class home extends JFrame {
 		JButton btnNewButton_1 = new JButton("Register");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				new RegisterForm().setVisible(true);
+				dispose();
 			}
 		});
 		btnNewButton_1.setIcon(new ImageIcon(home.class.getResource("/img/register.png")));
