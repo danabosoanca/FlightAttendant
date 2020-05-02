@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class home extends JFrame {
 
@@ -49,6 +51,11 @@ public class home extends JFrame {
 		panel.setLayout(null);
 		
 		JButton btnNewButton_1 = new JButton("Register");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
 		btnNewButton_1.setIcon(new ImageIcon(home.class.getResource("/img/register.png")));
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnNewButton_1.setBounds(246, 170, 130, 25);
