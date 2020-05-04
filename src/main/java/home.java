@@ -66,13 +66,8 @@ public class home extends JFrame {
 		
 		JLabel label = new JLabel("");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-<<<<<<< HEAD
-		label.setIcon(new ImageIcon(home.class.getResource("/img/iconfinder_coronovirus_02_5826047.png")));
-		label.setBounds(137, 42, 160, 115);
-=======
 		label.setIcon(new ImageIcon(home.class.getResource("/glob.png")));
 		label.setBounds(118, 31, 160, 115);
->>>>>>> ffe6bf524816be05c37eac4e820f60e09dc0d116
 		panel.add(label);
 		
 		JButton btnNewButton = new JButton("Log in");
