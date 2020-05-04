@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.ImageIcon;
@@ -17,9 +19,10 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import javax.swing.UIManager;
+import java.awt.Color;
 
 public class RegisterForm extends JFrame {
-	static int nr_utilizatori = 0;
 	private JPanel contentPane;
 	private JTextField adresa;
 	private JTextField nume;
@@ -51,6 +54,8 @@ public class RegisterForm extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 462, 468);
 		contentPane = new JPanel();
+		contentPane.setBackground(UIManager.getColor("ToolTip.background"));
+		contentPane.setForeground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -115,7 +120,8 @@ public class RegisterForm extends JFrame {
 		contentPane.add(lblFormularDeInregistrare);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setIcon(new ImageIcon(RegisterForm.class.getResource("/img/iconfinder_coronovirus_02_5826047.png")));
+		Image img = new ImageIcon(this.getClass().getResource("/glob.png")).getImage();
+		lblNewLabel_1.setIcon(new ImageIcon(img));
 		lblNewLabel_1.setBounds(0, 29, 207, 120);
 		contentPane.add(lblNewLabel_1);
 		
@@ -126,26 +132,39 @@ public class RegisterForm extends JFrame {
 				try {
 					Class.forName("com.mysql.jdbc.Driver").newInstance();
 					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
-					String sql = "INSERT INTO utilizatori (nume, adresa, telefon, membru, username, password, id_utilizator) VALUES (?, ?, ?, ?, ?, ?, ?)" ;
+					String sql = "INSERT INTO utilizatori (nume, adresa, telefon, membru, username, password) VALUES (?, ?, ?, ?, ?, ?)" ;
 					PreparedStatement pst = conn.prepareStatement(sql);
 					pst.setString(1,nume.getText());
 					pst.setString(2, adresa.getText());
 					pst.setString(3,tel.getText());
 					int memb;
 					if(checkMembru.isSelected()) {
-						memb= 1;
+						String cod = codMembru.getText();
+						if(cod.equals("fis123")) 
+							memb = 1;
+						else
+							throw new Exceptii.CodGresit(cod);
 					}
 					else
 						memb = 0;
 					pst.setInt(4, memb);
-					pst.setString(5, user.getText());
+					
+					String username = user.getText();					
+					if(verifyUser(username))
+						throw new Exceptii.UserAlreadyExists(username);
+					
+					pst.setString(5, username);
 					pst.setString(6,new String(password.getPassword()));
-					pst.setInt(7, ++nr_utilizatori);
 					
 					pst.executeUpdate();
-					JOptionPane.showMessageDialog(null, "Bravo Tati");
+					JOptionPane.showMessageDialog(null, "Adaugare reusita");
 				}catch (Exception e) {
 					System.err.println(e);
+				} finally {
+					try {
+						if(conn != null)
+							conn.close();
+					} catch (SQLException e) {}
 				}
 			}
 		});
@@ -174,5 +193,28 @@ public class RegisterForm extends JFrame {
 		password.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		password.setBounds(213, 300, 160, 20);
 		contentPane.add(password);
+	}
+
+	private boolean verifyUser(String u){
+		Connection conn = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
+			
+			String sql = "SELECT * FROM utilizatori WHERE username = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1,u);
+			ResultSet rs = pst.executeQuery();
+			
+			if(rs.next()) {
+				conn.close();
+				return true;
+			}
+			
+			conn.close();
+		} catch(Exception e) {
+			System.err.println(e);
+		}
+		return false;
 	}
 }

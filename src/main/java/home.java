@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.UIManager;
 
 public class home extends JFrame {
 
@@ -46,7 +47,7 @@ public class home extends JFrame {
 		setContentPane(contentPane);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.PINK);
+		panel.setBackground(UIManager.getColor("ToolTip.background"));
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
@@ -57,20 +58,21 @@ public class home extends JFrame {
 				dispose();
 			}
 		});
-		btnNewButton_1.setIcon(new ImageIcon(home.class.getResource("/img/register.png")));
+		Image img = new ImageIcon(this.getClass().getResource("/register.png")).getImage();
+		btnNewButton_1.setIcon(new ImageIcon(img));
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnNewButton_1.setBounds(246, 170, 130, 25);
 		panel.add(btnNewButton_1);
 		
 		JLabel label = new JLabel("");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setIcon(new ImageIcon(home.class.getResource("/img/iconfinder_coronovirus_02_5826047.png")));
+		label.setIcon(new ImageIcon(home.class.getResource("/glob.png")));
 		label.setBounds(118, 31, 160, 115);
 		panel.add(label);
 		
 		JButton btnNewButton = new JButton("Log in");
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnNewButton.setIcon(new ImageIcon(home.class.getResource("/img/login.png")));
+		btnNewButton.setIcon(new ImageIcon(home.class.getResource("/login.png")));
 		btnNewButton.setBounds(69, 170, 116, 25);
 		panel.add(btnNewButton);
 	}
