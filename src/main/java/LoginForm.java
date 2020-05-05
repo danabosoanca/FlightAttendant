@@ -86,10 +86,12 @@ public class LoginForm extends JFrame {
 					if(rs.next()) {
 						if(user.equals(rs.getString("username")) && pass.equals(rs.getString("password"))) {
 							if(rs.getInt("membru")==1) {
-								System.out.println("e membru");
+								new CompanysPage().setVisible(true);
+								dispose();
 							}
 							else {
-								System.out.println("e client");
+								new ClientsPage().setVisible(true);
+								dispose();
 							}
 						}else {
 							throw new Exceptii.MismatchData(user,pass);
