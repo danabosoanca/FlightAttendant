@@ -9,16 +9,22 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import com.mysql.jdbc.Statement;
 
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Image;
 
@@ -26,6 +32,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ClientsPage extends JFrame {
 	private JTable table;
@@ -52,7 +60,7 @@ public class ClientsPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	private void showData() {
+	private void showData( ) {
 		Connection conn=null;
 		DefaultTableModel model=new DefaultTableModel();
 		model.addColumn("Numarul zborului");
@@ -98,6 +106,7 @@ public class ClientsPage extends JFrame {
 		}
 		
 	}
+	
 	public ClientsPage() {
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -118,8 +127,16 @@ public class ClientsPage extends JFrame {
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = table.getSelectedRow();
+				TableModel model = table.getModel();
+				int id = Integer.parseInt(model.getValueAt(index , 0).toString());
+				new DisplayFlight(id).setVisible(true);
+			}
+		});
 		scrollPane.setViewportView(table);
-		
 		JLabel lblListaZborurilorDisponibile = new JLabel("Lista zborurilor disponibile");
 		lblListaZborurilorDisponibile.setHorizontalAlignment(SwingConstants.CENTER);
 		lblListaZborurilorDisponibile.setFont(new Font("Times New Roman", Font.BOLD, 22));
