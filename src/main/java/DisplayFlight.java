@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JFrame;
@@ -16,6 +17,8 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.UIManager;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class DisplayFlight extends JFrame {
 
@@ -29,6 +32,7 @@ public class DisplayFlight extends JFrame {
 	 * Create the frame.
 	 */
 	public DisplayFlight(int id_zbor) {
+		setTitle("Reservation Form");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 413, 464);
 		contentPane = new JPanel();
@@ -75,13 +79,19 @@ public class DisplayFlight extends JFrame {
 		JButton btnNewButton = new JButton("Rezerva");
 		btnNewButton.setForeground(new Color(153, 0, 0));
 		btnNewButton.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		btnNewButton.setBounds(80, 333, 89, 23);
+		btnNewButton.setBounds(69, 333, 100, 23);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Inapoi");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new ClientsPage().setVisible(true);
+				dispose();
+			}
+		});
 		btnNewButton_1.setForeground(new Color(153, 0, 0));
 		btnNewButton_1.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		btnNewButton_1.setBounds(220, 333, 89, 23);
+		btnNewButton_1.setBounds(220, 333, 100, 23);
 		contentPane.add(btnNewButton_1);
 		
 		JLabel lblNewLabel_1 = new JLabel("New label");
@@ -133,8 +143,23 @@ public class DisplayFlight extends JFrame {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
+			String sql = "SELECT * FROM zboruri  WHERE id_zbor =" + id_zbor;
+			PreparedStatement pst = conn.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
 			
-		}catch (Exception e) {
+			if(rs.next()) {
+				lblNewLabel_1.setText(rs.getString("oras_de_plecare"));
+				lblNewLabel_2.setText(rs.getString("destinatie"));
+				lblNewLabel_3.setText(rs.getString("ora_imbarcare"));
+				lblNewLabel_4.setText(rs.getString("data_imbarcare"));
+				lblNewLabel_5.setText(rs.getString("durata"));
+				lblNewLabel_6.setText(rs.getString("locuri_disp"));
+				lblNewLabel_7.setText(rs.getString("pret_bilet"));
+			}
+			
+			
+			
+			}catch (Exception e) {
 			System.err.println(e);
 		} finally {
 			try {

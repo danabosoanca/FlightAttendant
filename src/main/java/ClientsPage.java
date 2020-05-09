@@ -60,7 +60,7 @@ public class ClientsPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	private void showData( ) {
+	private void showData() {
 		Connection conn=null;
 		DefaultTableModel model=new DefaultTableModel();
 		model.addColumn("Numarul zborului");
@@ -134,6 +134,7 @@ public class ClientsPage extends JFrame {
 				TableModel model = table.getModel();
 				int id = Integer.parseInt(model.getValueAt(index , 0).toString());
 				new DisplayFlight(id).setVisible(true);
+				dispose();
 			}
 		});
 		scrollPane.setViewportView(table);
