@@ -34,6 +34,8 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ClientsPage extends JFrame {
 	private JTable table;
@@ -60,29 +62,29 @@ public class ClientsPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	private void showData() {
+	private void showData(String order) {
 		Connection conn=null;
 		DefaultTableModel model=new DefaultTableModel();
-		model.addColumn("Numarul zborului");
+		
 		model.addColumn("Oras de plecare");
 		model.addColumn("Destinatie");
 		model.addColumn("Ora de imbarcare");
 		model.addColumn("Data imbarcarii");
-		model.addColumn("Locuri disponibile");
+		
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
-			String sql="SELECT * FROM zboruri ";
+			String sql="SELECT * FROM zboruri ORDER BY "+order;
 			PreparedStatement pts= conn.prepareStatement(sql);
 			ResultSet rs = pts.executeQuery();
 			while(rs.next()) {
 				model.addRow(new Object[] {
-						rs.getString("id_zbor"),
+						
 						rs.getString("oras_de_plecare"),
 						rs.getString("destinatie"),
 						rs.getString("ora_imbarcare"),
 						rs.getString("data_imbarcare"),
-						rs.getString("locuri_disp")
+						
 				});
 				
 			}
@@ -95,10 +97,7 @@ public class ClientsPage extends JFrame {
 			table.getColumnModel().getColumn(1).setPreferredWidth(120);
 			table.getColumnModel().getColumn(2).setPreferredWidth(120);
 			table.getColumnModel().getColumn(3).setPreferredWidth(120);
-			table.getColumnModel().getColumn(4).setPreferredWidth(120);
-			table.getColumnModel().getColumn(5).setPreferredWidth(120);
-			table.getColumnModel().getColumn(6).setPreferredWidth(120);
-			table.getColumnModel().getColumn(7).setPreferredWidth(120);
+			
 			
 		}
 		catch(Exception e) {
@@ -111,11 +110,12 @@ public class ClientsPage extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent arg0) {
-				showData();
+				showData("oras_de_plecare");
+				
 			}
 		});
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 770, 533);
+		setBounds(100, 100, 535, 535);
 		contentPane = new JPanel();
 		contentPane.setBackground(UIManager.getColor("ToolTip.background"));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -123,7 +123,7 @@ public class ClientsPage extends JFrame {
 		contentPane.setLayout(null);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 134, 726, 293);
+		scrollPane.setBounds(12, 134, 483, 293);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -141,7 +141,7 @@ public class ClientsPage extends JFrame {
 		JLabel lblListaZborurilorDisponibile = new JLabel("Lista zborurilor disponibile");
 		lblListaZborurilorDisponibile.setHorizontalAlignment(SwingConstants.CENTER);
 		lblListaZborurilorDisponibile.setFont(new Font("Times New Roman", Font.BOLD, 22));
-		lblListaZborurilorDisponibile.setBounds(217, 44, 321, 27);
+		lblListaZborurilorDisponibile.setBounds(152, 44, 321, 27);
 		contentPane.add(lblListaZborurilorDisponibile);
 		
 		JLabel lblNewLabel = new JLabel("");
@@ -153,13 +153,26 @@ public class ClientsPage extends JFrame {
 		lblSortareDupa = new JLabel("Sortare dupa:");
 		lblSortareDupa.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSortareDupa.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		lblSortareDupa.setBounds(449, 443, 95, 16);
+		lblSortareDupa.setBounds(209, 440, 95, 16);
 		contentPane.add(lblSortareDupa);
 		
-		JComboBox comboBox = new JComboBox();
+		final JComboBox comboBox = new JComboBox();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String aux=comboBox.getSelectedItem().toString();
+				if(aux.equals("oras de plecare"))
+					showData("oras_de_plecare");
+				else if(aux.equals("destinatie"))
+					showData("destinatie");
+				else if(aux.equals("data imbarcarii"))
+					showData("data_imbarcare");
+				else if(aux.equals("ora imbarcarii"))
+					showData("ora_imbarcare");
+			}
+		});
 		comboBox.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"oras de plecare", "destinatie", "data imbarcarii", "ora imbarcarii"}));
-		comboBox.setBounds(559, 440, 179, 22);
+		comboBox.setBounds(316, 437, 179, 22);
 		contentPane.add(comboBox);
 	}
 }
