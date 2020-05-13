@@ -37,7 +37,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ClientsPage extends JFrame {
+public class AllFlightsMemb extends JFrame {
 	private JTable table;
 	private JPanel contentPane;
 	private JScrollPane scrollPane;
@@ -50,7 +50,7 @@ public class ClientsPage extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ClientsPage frame = new ClientsPage();
+					AllFlightsMemb frame = new AllFlightsMemb();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -107,7 +107,7 @@ public class ClientsPage extends JFrame {
 		
 	}
 	
-	public ClientsPage() {
+	public AllFlightsMemb() {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent arg0) {
@@ -130,11 +130,11 @@ public class ClientsPage extends JFrame {
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent arg0) {
 				int index = table.getSelectedRow();
 				TableModel model = table.getModel();
-				int id = Integer.parseInt(model.getValueAt(index , 0).toString());
-				new DisplayFlight(id).setVisible(true);
+				int id = Integer.parseInt(model.getValueAt(index, 0).toString());
+				new EditFlight(id).setVisible(true);
 				dispose();
 			}
 		});
