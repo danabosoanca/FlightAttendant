@@ -78,7 +78,7 @@ public class LoginForm extends JFrame {
 					Class.forName("com.mysql.jdbc.Driver").newInstance();
 					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
 					String user=utilizator.getText();
-					String pass=new String(password.getPassword());
+					String pass=EncryptPassword.encryptPassword(new String(password.getPassword()),"MD5");
 					String sql="SELECT * FROM utilizatori WHERE username=?";
 					PreparedStatement pts= conn.prepareStatement(sql);
 					pts.setString(1, user);
