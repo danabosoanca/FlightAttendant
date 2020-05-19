@@ -182,7 +182,7 @@ public class ClientsPage extends JFrame {
 		Connection conn=null;
 		try {
 		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
-		String sql = "SELECT * FROM zboruri WHER id_zbor="+ id_zbor ;
+		String sql = "SELECT * FROM zboruri WHERE id_zbor="+ id_zbor ;
 		PreparedStatement pst = conn.prepareStatement(sql);
 		ResultSet rs=pst.executeQuery();
 		int locuri_ramase=0;
@@ -192,9 +192,9 @@ public class ClientsPage extends JFrame {
 		else {
 			JOptionPane.showMessageDialog(null, "Zborul ales nu exista");
 		}
-		String sql1="UPDATE 'zboruri' SET 'locuri_disp' = "+locuri_ramase+" WHERE 'id_zbor' = "+id_zbor;
+		String sql1="UPDATE zboruri SET locuri_disp = "+locuri_ramase+" WHERE id_zbor = "+id_zbor;
 		java.sql.Statement pst1=conn.createStatement();
-		ResultSet rs1=pst1.executeQuery(sql1);
+		int rs1=pst1.executeUpdate(sql1);
 		}
 		catch(Exception e) {
 			System.err.println(e);
