@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -65,6 +66,7 @@ public class ClientsPage extends JFrame {
 	private void showData(String order) {
 		Connection conn=null;
 		DefaultTableModel model=new DefaultTableModel();
+		
 		model.addColumn("Numar zbor");
 		model.addColumn("Oras de plecare");
 		model.addColumn("Destinatie");
@@ -175,5 +177,33 @@ public class ClientsPage extends JFrame {
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"oras de plecare", "destinatie", "data imbarcarii", "ora imbarcarii"}));
 		comboBox.setBounds(433, 438, 179, 22);
 		contentPane.add(comboBox);
+	}
+	public static void updateFlight(int locuri, int id_zbor) {
+		Connection conn=null;
+		try {
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
+		String sql = "SELECT * FROM zboruri WHER id_zbor="+ id_zbor ;
+		PreparedStatement pst = conn.prepareStatement(sql);
+		ResultSet rs=pst.executeQuery();
+		int locuri_ramase=0;
+		if(rs.next()) {
+			locuri_ramase=Integer.parseInt(rs.getString("locuri_disp"))-locuri;
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Zborul ales nu exista");
+		}
+		String sql1="UPDATE 'zboruri' SET 'locuri_disp' = "+locuri_ramase+" WHERE 'id_zbor' = "+id_zbor;
+		java.sql.Statement pst1=conn.createStatement();
+		ResultSet rs1=pst1.executeQuery(sql1);
+		}
+		catch(Exception e) {
+			System.err.println(e);
+		}finally {
+			try {
+				if(conn != null)
+					conn.close();
+			} catch (SQLException e) {}
+		}
+		
 	}
 }

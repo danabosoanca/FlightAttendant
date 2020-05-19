@@ -23,7 +23,8 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class LoginForm extends JFrame {
-
+	
+	private static int id_utilizator;
 	private JPanel contentPane;
 	private JTextField utilizator;
 	private JPasswordField password;
@@ -86,10 +87,12 @@ public class LoginForm extends JFrame {
 					if(rs.next()) {
 						if(user.equals(rs.getString("username")) && pass.equals(rs.getString("password"))) {
 							if(rs.getInt("membru")==1) {
+								id_utilizator=Integer.parseInt(rs.getString("id_utilizator"));
 								new CompanysPage().setVisible(true);
 								dispose();
 							}
 							else {
+								id_utilizator=Integer.parseInt(rs.getString("id_utilizator"));
 								new ClientsPage().setVisible(true);
 								dispose();
 							}
@@ -142,5 +145,8 @@ public class LoginForm extends JFrame {
 		label.setBounds(54, 43, 138, 111);
 		panel.add(label);
 		
+	}
+	public static int getUtilizator() {
+		return id_utilizator;
 	}
 }
