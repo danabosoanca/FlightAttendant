@@ -37,7 +37,7 @@ public class EditFlight extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public EditFlight(int id_zbor) {
+	public EditFlight(final int id_zbor) {
 		setTitle("Reservation Form");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 413, 464);
@@ -85,6 +85,32 @@ public class EditFlight extends JFrame {
 		JButton btnEditeaza = new JButton("Editeaza");
 		btnEditeaza.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Connection conn = null;
+				try {
+					Class.forName("com.mysql.jdbc.Driver").newInstance();
+					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
+					if(!conn.isClosed())
+						System.out.println("Succesfully connected ...");
+					String sql = "update zboruri set oras_de_plecare = ?, destinatie = ?, ora_imbarcare = ?, data_imbarcare = ?, durata = ?, locuri_disp = ?, pret_bilet = ? where id_zbor = " + id_zbor;
+					PreparedStatement pst = conn.prepareStatement(sql);
+					pst.setString(1,textField.getText());
+					pst.setString(2, textField_1.getText());
+					pst.setString(3, textField_2.getText());
+					pst.setString(4, textField_3.getText());
+					pst.setString(5, textField_4.getText());
+					pst.setString(6, textField_5.getText());
+					pst.setString(7, textField_6.getText());
+					pst.executeUpdate();
+					JOptionPane.showMessageDialog(null, "Modificare reusita!");
+				}catch(Exception e) {
+					System.err.println(e);
+				} finally {
+					try {
+						if(conn != null)
+							conn.close();
+					} catch (SQLException e) {}
+				}
+				
 			}
 		});
 		btnEditeaza.setForeground(new Color(153, 0, 0));
@@ -95,7 +121,7 @@ public class EditFlight extends JFrame {
 		JButton btnSterge = new JButton("Inapoi");
 		btnSterge.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new ClientsPage().setVisible(true);
+				new AllFlightsMemb().setVisible(true);
 				dispose();
 			}
 		});
@@ -140,6 +166,26 @@ public class EditFlight extends JFrame {
 		textField_6.setColumns(10);
 		
 		JButton btnSterge_1 = new JButton("Sterge");
+		btnSterge_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Connection conn = null;
+				try {
+					Class.forName("com.mysql.jdbc.Driver").newInstance();
+					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
+					if(!conn.isClosed())
+						System.out.println("Succesfully connected ...");
+					String sql = "delete from zboruri where id_zbor=" + id_zbor;
+					JOptionPane.showMessageDialog(null, "Stergere reusita");
+				}catch(Exception e) {
+					System.err.println(e);
+				} finally {
+					try {
+						if(conn != null)
+							conn.close();
+					} catch (SQLException e) {}
+				}
+			}
+		});
 		btnSterge_1.setForeground(new Color(153, 0, 0));
 		btnSterge_1.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		btnSterge_1.setBounds(220, 333, 100, 23);
