@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.UIManager;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CompanysPage extends JFrame {
 
@@ -55,6 +57,12 @@ public class CompanysPage extends JFrame {
 		panel.add(lblNewLabel_1);
 		
 		JButton btnNewButton = new JButton("Vezi toate zborurile disponibile");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new AllFlightsMemb().setVisible(true);
+				dispose();
+			}
+		});
 		btnNewButton.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		btnNewButton.setBounds(87, 168, 223, 25);
 		panel.add(btnNewButton);

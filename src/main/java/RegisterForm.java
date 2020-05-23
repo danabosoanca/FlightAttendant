@@ -154,7 +154,8 @@ public class RegisterForm extends JFrame {
 						throw new Exceptii.UserAlreadyExists(username);
 					
 					pst.setString(5, username);
-					pst.setString(6,new String(password.getPassword()));
+					String pass = new String (password.getPassword());
+					pst.setString(6,EncryptPassword.encryptPassword(pass,"MD5"));
 					
 					pst.executeUpdate();
 					JOptionPane.showMessageDialog(null, "Adaugare reusita");
