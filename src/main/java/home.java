@@ -71,6 +71,12 @@ public class home extends JFrame {
 		panel.add(label);
 		
 		JButton btnNewButton = new JButton("Log in");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new LoginForm().setVisible(true);
+				dispose();
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnNewButton.setIcon(new ImageIcon(home.class.getResource("/login.png")));
 		btnNewButton.setBounds(69, 170, 116, 25);

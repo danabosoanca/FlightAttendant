@@ -158,6 +158,8 @@ public class RegisterForm extends JFrame {
 					
 					pst.executeUpdate();
 					JOptionPane.showMessageDialog(null, "Adaugare reusita");
+					new LoginForm().setVisible(true);
+					dispose();
 				}catch (Exception e) {
 					System.err.println(e);
 				} finally {
