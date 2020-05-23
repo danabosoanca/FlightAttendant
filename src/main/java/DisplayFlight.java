@@ -23,7 +23,7 @@ import java.awt.event.ActionEvent;
 public class DisplayFlight extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField nr_bilete;
 
 	/**
 	 * Launch the application.
@@ -31,7 +31,7 @@ public class DisplayFlight extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public DisplayFlight(int id_zbor) {
+	public DisplayFlight(final int id_zbor) {
 		setTitle("Reservation Form");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 413, 464);
@@ -77,6 +77,13 @@ public class DisplayFlight extends JFrame {
 		contentPane.add(lblPretBilet);
 		
 		JButton btnNewButton = new JButton("Rezerva");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int numarBilete=Integer.parseInt((nr_bilete.getText()));
+				new Reservation(numarBilete,id_zbor).setVisible(true);
+				dispose();
+			}
+		});
 		btnNewButton.setForeground(new Color(153, 0, 0));
 		btnNewButton.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		btnNewButton.setBounds(69, 333, 100, 23);
@@ -134,11 +141,11 @@ public class DisplayFlight extends JFrame {
 		lblNumarDeBilete.setBounds(37, 280, 132, 23);
 		contentPane.add(lblNumarDeBilete);
 		
-		textField = new JTextField();
-		textField.setText("1");
-		textField.setBounds(220, 283, 27, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		nr_bilete = new JTextField();
+		nr_bilete.setText("1");
+		nr_bilete.setBounds(220, 283, 27, 20);
+		contentPane.add(nr_bilete);
+		nr_bilete.setColumns(10);
 		Connection conn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
