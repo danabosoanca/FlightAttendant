@@ -68,6 +68,13 @@ public class CompanysPage extends JFrame {
 		panel.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Vezi toate rezervarile");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AllReservations().setVisible(true);
+				dispose();
+			}
+		});
+		
 		btnNewButton_1.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		btnNewButton_1.setBounds(87, 227, 223, 25);
 		panel.add(btnNewButton_1);
