@@ -1,3 +1,4 @@
+package home.pages.client;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.sql.Connection;

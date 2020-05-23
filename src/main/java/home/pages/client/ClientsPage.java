@@ -1,3 +1,4 @@
+package home.pages.client;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.sql.Connection;
@@ -13,6 +14,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import com.mysql.jdbc.Statement;
 
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -35,14 +38,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JButton;
-import java.awt.Color;
 
-public class AllReservations extends JFrame {
+public class ClientsPage extends JFrame {
 	private JTable table;
 	private JPanel contentPane;
 	private JScrollPane scrollPane;
-	
+	private JLabel lblSortareDupa;
+
 	/**
 	 * Launch the application.
 	 */
@@ -50,7 +52,7 @@ public class AllReservations extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AllReservations frame = new AllReservations();
+					ClientsPage frame = new ClientsPage();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -62,26 +64,29 @@ public class AllReservations extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	private void showData() {
+	private void showData(String order) {
 		Connection conn=null;
 		DefaultTableModel model=new DefaultTableModel();
-		model.addColumn("ID_REZERVARE");
-		model.addColumn("ID_ZBOR");
-		model.addColumn("ID_UTILIZATOR");
 		
+		model.addColumn("Numar zbor");
+		model.addColumn("Oras de plecare");
+		model.addColumn("Destinatie");
+		model.addColumn("Ora imbarcarii");
+		model.addColumn("Data imbarcarii");
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
-			String sql="SELECT * FROM rezervari";
+			String sql="SELECT * FROM zboruri ORDER BY "+order;
 			PreparedStatement pts= conn.prepareStatement(sql);
 			ResultSet rs = pts.executeQuery();
 			while(rs.next()) {
 				model.addRow(new Object[] {
-						rs.getString("id_rezervare"),
 						rs.getString("id_zbor"),
-						rs.getString("id_utilizator"),
-						
+						rs.getString("oras_de_plecare"),
+						rs.getString("destinatie"),
+						rs.getString("ora_imbarcare"),
+						rs.getString("data_imbarcare"),
 						
 				});
 				
@@ -105,16 +110,16 @@ public class AllReservations extends JFrame {
 		
 	}
 	
-	public AllReservations() {
+	public ClientsPage() {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent arg0) {
-				showData();
+				showData("oras_de_plecare");
 				
 			}
 		});
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 419, 535);
+		setBounds(100, 100, 646, 535);
 		contentPane = new JPanel();
 		contentPane.setBackground(UIManager.getColor("ToolTip.background"));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -122,27 +127,26 @@ public class AllReservations extends JFrame {
 		contentPane.setLayout(null);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 132, 379, 293);
+		scrollPane.setBounds(10, 132, 603, 293);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void mouseClicked(MouseEvent e) {
 				int index = table.getSelectedRow();
 				TableModel model = table.getModel();
-				int id = Integer.parseInt(model.getValueAt(index, 2).toString());
-				new DisplayInformation(id).setVisible(true);
+				int id = Integer.parseInt(model.getValueAt(index , 0).toString());
+				new DisplayFlight(id).setVisible(true);
 				dispose();
 			}
-			
 		});
 		scrollPane.setViewportView(table);
-		JLabel lblListaRezervari = new JLabel("Lista rezervari");
-		lblListaRezervari.setHorizontalAlignment(SwingConstants.CENTER);
-		lblListaRezervari.setFont(new Font("Times New Roman", Font.BOLD, 22));
-		lblListaRezervari.setBounds(138, 49, 228, 27);
-		contentPane.add(lblListaRezervari);
+		JLabel lblListaZborurilorDisponibile = new JLabel("Lista zborurilor disponibile");
+		lblListaZborurilorDisponibile.setHorizontalAlignment(SwingConstants.CENTER);
+		lblListaZborurilorDisponibile.setFont(new Font("Times New Roman", Font.BOLD, 22));
+		lblListaZborurilorDisponibile.setBounds(152, 44, 321, 27);
+		contentPane.add(lblListaZborurilorDisponibile);
 		
 		JLabel lblNewLabel = new JLabel("");
 		Image img = new ImageIcon(this.getClass().getResource("/glob.png")).getImage();
@@ -150,16 +154,57 @@ public class AllReservations extends JFrame {
 		lblNewLabel.setBounds(32, 13, 137, 108);
 		contentPane.add(lblNewLabel);
 		
-		JButton btnInapoi = new JButton("Inapoi");
-		btnInapoi.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new CompanysPage().setVisible(true);
-				dispose();
+		lblSortareDupa = new JLabel("Sortare dupa:");
+		lblSortareDupa.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSortareDupa.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		lblSortareDupa.setBounds(328, 441, 95, 16);
+		contentPane.add(lblSortareDupa);
+		
+		final JComboBox comboBox = new JComboBox();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String aux=comboBox.getSelectedItem().toString();
+				if(aux.equals("oras de plecare"))
+					showData("oras_de_plecare");
+				else if(aux.equals("destinatie"))
+					showData("destinatie");
+				else if(aux.equals("data imbarcarii"))
+					showData("data_imbarcare");
+				else if(aux.equals("ora imbarcarii"))
+					showData("ora_imbarcare");
 			}
 		});
-		btnInapoi.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnInapoi.setBounds(154, 438, 97, 25);
-		contentPane.add(btnInapoi);
-
+		comboBox.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"oras de plecare", "destinatie", "data imbarcarii", "ora imbarcarii"}));
+		comboBox.setBounds(433, 438, 179, 22);
+		contentPane.add(comboBox);
+	}
+	public static void updateFlight(int locuri, int id_zbor) {
+		Connection conn=null;
+		try {
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
+		String sql = "SELECT * FROM zboruri WHERE id_zbor="+ id_zbor ;
+		PreparedStatement pst = conn.prepareStatement(sql);
+		ResultSet rs=pst.executeQuery();
+		int locuri_ramase=0;
+		if(rs.next()) {
+			locuri_ramase=Integer.parseInt(rs.getString("locuri_disp"))-locuri;
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Zborul ales nu exista");
+		}
+		String sql1="UPDATE zboruri SET locuri_disp = "+locuri_ramase+" WHERE id_zbor = "+id_zbor;
+		java.sql.Statement pst1=conn.createStatement();
+		int rs1=pst1.executeUpdate(sql1);
+		}
+		catch(Exception e) {
+			System.err.println(e);
+		}finally {
+			try {
+				if(conn != null)
+					conn.close();
+			} catch (SQLException e) {}
+		}
+		
 	}
 }

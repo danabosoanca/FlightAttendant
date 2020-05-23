@@ -1,3 +1,4 @@
+package home;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -21,6 +22,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import home.pages.client.*;
+import home.pages.member.*;
 
 public class LoginForm extends JFrame {
 	

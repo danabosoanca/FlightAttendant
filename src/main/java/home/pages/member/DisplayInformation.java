@@ -1,3 +1,4 @@
+package home.pages.member;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
