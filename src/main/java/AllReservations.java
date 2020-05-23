@@ -127,7 +127,14 @@ public class AllReservations extends JFrame {
 		
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
-			
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int index = table.getSelectedRow();
+				TableModel model = table.getModel();
+				int id = Integer.parseInt(model.getValueAt(index, 2).toString());
+				new DisplayInformation(id).setVisible(true);
+				dispose();
+			}
 			
 		});
 		scrollPane.setViewportView(table);
@@ -142,6 +149,17 @@ public class AllReservations extends JFrame {
 		lblNewLabel.setIcon(new ImageIcon(img));
 		lblNewLabel.setBounds(32, 13, 137, 108);
 		contentPane.add(lblNewLabel);
+		
+		JButton btnInapoi = new JButton("Inapoi");
+		btnInapoi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new CompanysPage().setVisible(true);
+				dispose();
+			}
+		});
+		btnInapoi.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnInapoi.setBounds(154, 438, 97, 25);
+		contentPane.add(btnInapoi);
 
 	}
 }

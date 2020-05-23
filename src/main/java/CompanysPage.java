@@ -53,7 +53,7 @@ public class CompanysPage extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("");
 		Image img = new ImageIcon(this.getClass().getResource("/glob.png")).getImage();
 		lblNewLabel_1.setIcon(new ImageIcon(img));
-		lblNewLabel_1.setBounds(12, 24, 128, 111);
+		lblNewLabel_1.setBounds(12, 29, 128, 111);
 		panel.add(lblNewLabel_1);
 		
 		JButton btnNewButton = new JButton("Vezi toate zborurile disponibile");
@@ -64,7 +64,7 @@ public class CompanysPage extends JFrame {
 			}
 		});
 		btnNewButton.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		btnNewButton.setBounds(87, 168, 223, 25);
+		btnNewButton.setBounds(72, 168, 250, 25);
 		panel.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Vezi toate rezervarile");
@@ -76,7 +76,7 @@ public class CompanysPage extends JFrame {
 		});
 		
 		btnNewButton_1.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		btnNewButton_1.setBounds(87, 227, 223, 25);
+		btnNewButton_1.setBounds(72, 227, 250, 25);
 		panel.add(btnNewButton_1);
 	}
 }
