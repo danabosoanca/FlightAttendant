@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -12,8 +13,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
-import com.mysql.jdbc.Statement;
 
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -36,6 +35,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JButton;
+import java.awt.Color;
 
 public class AllFlightsMemb extends JFrame {
 	private JTable table;
@@ -175,5 +176,16 @@ public class AllFlightsMemb extends JFrame {
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"oras de plecare", "destinatie", "data imbarcarii", "ora imbarcarii"}));
 		comboBox.setBounds(433, 438, 179, 22);
 		contentPane.add(comboBox);
+		
+		JButton btnNewButton = new JButton("Adauga zbor");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AddFlight().setVisible(true);
+			}
+		});
+		btnNewButton.setForeground(new Color(0, 0, 0));
+		btnNewButton.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		btnNewButton.setBounds(10, 436, 137, 23);
+		contentPane.add(btnNewButton);
 	}
 }
