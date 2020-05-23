@@ -1,3 +1,4 @@
+package home;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Image;
@@ -40,7 +41,7 @@ public class home extends JFrame {
 	 */
 	public home() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 461, 370);
+		setBounds(100, 100, 461, 317);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -61,13 +62,13 @@ public class home extends JFrame {
 		Image img = new ImageIcon(this.getClass().getResource("/register.png")).getImage();
 		btnNewButton_1.setIcon(new ImageIcon(img));
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnNewButton_1.setBounds(246, 170, 130, 25);
+		btnNewButton_1.setBounds(243, 178, 130, 25);
 		panel.add(btnNewButton_1);
 		
 		JLabel label = new JLabel("");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setIcon(new ImageIcon(home.class.getResource("/glob.png")));
-		label.setBounds(118, 31, 160, 115);
+		label.setBounds(-14, 13, 160, 115);
 		panel.add(label);
 		
 		JButton btnNewButton = new JButton("Log in");
@@ -79,7 +80,13 @@ public class home extends JFrame {
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnNewButton.setIcon(new ImageIcon(home.class.getResource("/login.png")));
-		btnNewButton.setBounds(69, 170, 116, 25);
+		btnNewButton.setBounds(66, 178, 116, 25);
 		panel.add(btnNewButton);
+		
+		JLabel lblFlightAttendant = new JLabel("Flight Attendant");
+		lblFlightAttendant.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFlightAttendant.setFont(new Font("Times New Roman", Font.BOLD, 24));
+		lblFlightAttendant.setBounds(66, 80, 308, 25);
+		panel.add(lblFlightAttendant);
 	}
 }

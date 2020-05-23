@@ -1,3 +1,4 @@
+package home.pages.member;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.sql.Connection;
@@ -113,7 +114,7 @@ public class EditFlight extends JFrame {
 				
 			}
 		});
-		btnEditeaza.setForeground(new Color(153, 0, 0));
+		btnEditeaza.setForeground(UIManager.getColor("ToolTip.foreground"));
 		btnEditeaza.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		btnEditeaza.setBounds(69, 333, 100, 23);
 		contentPane.add(btnEditeaza);
@@ -125,7 +126,7 @@ public class EditFlight extends JFrame {
 				dispose();
 			}
 		});
-		btnSterge.setForeground(new Color(153, 0, 0));
+		btnSterge.setForeground(UIManager.getColor("ToolTip.foreground"));
 		btnSterge.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		btnSterge.setBounds(151, 367, 100, 23);
 		contentPane.add(btnSterge);
@@ -186,7 +187,7 @@ public class EditFlight extends JFrame {
 				}
 			}
 		});
-		btnSterge_1.setForeground(new Color(153, 0, 0));
+		btnSterge_1.setForeground(UIManager.getColor("ToolTip.foreground"));
 		btnSterge_1.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		btnSterge_1.setBounds(220, 333, 100, 23);
 		contentPane.add(btnSterge_1);

@@ -1,3 +1,4 @@
+package home.pages.client;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.sql.Connection;
@@ -84,7 +85,7 @@ public class DisplayFlight extends JFrame {
 				dispose();
 			}
 		});
-		btnNewButton.setForeground(new Color(153, 0, 0));
+		btnNewButton.setForeground(UIManager.getColor("ToolTip.foreground"));
 		btnNewButton.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		btnNewButton.setBounds(69, 333, 100, 23);
 		contentPane.add(btnNewButton);
@@ -96,7 +97,7 @@ public class DisplayFlight extends JFrame {
 				dispose();
 			}
 		});
-		btnNewButton_1.setForeground(new Color(153, 0, 0));
+		btnNewButton_1.setForeground(UIManager.getColor("ToolTip.foreground"));
 		btnNewButton_1.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		btnNewButton_1.setBounds(220, 333, 100, 23);
 		contentPane.add(btnNewButton_1);

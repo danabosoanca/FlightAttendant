@@ -1,3 +1,4 @@
+package home.pages.member;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.sql.Connection;
@@ -185,7 +186,18 @@ public class AllFlightsMemb extends JFrame {
 		});
 		btnNewButton.setForeground(new Color(0, 0, 0));
 		btnNewButton.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		btnNewButton.setBounds(10, 436, 137, 23);
+		btnNewButton.setBounds(32, 437, 115, 23);
 		contentPane.add(btnNewButton);
+		
+		JButton btnInapoi = new JButton("Inapoi");
+		btnInapoi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new CompanysPage().setVisible(true);
+				dispose();
+			}
+		});
+		btnInapoi.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		btnInapoi.setBounds(166, 437, 115, 23);
+		contentPane.add(btnInapoi);
 	}
 }

@@ -1,3 +1,4 @@
+package home.pages.client;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -18,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import home.*;
 
 public class Reservation extends JFrame {
 
