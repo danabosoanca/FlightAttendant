@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gazdă: 127.0.0.1
--- Timp de generare: mai 05, 2020 la 04:18 PM
+-- Timp de generare: mai 24, 2020 la 03:27 PM
 -- Versiune server: 10.4.11-MariaDB
 -- Versiune PHP: 7.2.28
 
@@ -25,46 +25,47 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structură tabel pentru tabel `zboruri`
+-- Structură tabel pentru tabel `rezervari`
 --
 
-CREATE TABLE `zboruri` (
+CREATE TABLE `rezervari` (
+  `id_rezervare` int(11) NOT NULL,
+  `id_utilizator` int(11) NOT NULL,
   `id_zbor` int(11) NOT NULL,
-  `oras_de_plecare` varchar(20) NOT NULL,
-  `destinatie` varchar(20) NOT NULL,
-  `ora_imbarcare` time NOT NULL,
-  `data_imbarcare` date NOT NULL,
-  `durata` int(11) NOT NULL,
-  `locuri_disp` int(11) NOT NULL
+  `nr_bilete` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Eliminarea datelor din tabel `zboruri`
+-- Eliminarea datelor din tabel `rezervari`
 --
 
-INSERT INTO `zboruri` (`id_zbor`, `oras_de_plecare`, `destinatie`, `ora_imbarcare`, `data_imbarcare`, `durata`, `locuri_disp`) VALUES
-(1, 'test', 'test', '22:43:00', '2020-05-06', 100, 100);
+INSERT INTO `rezervari` (`id_rezervare`, `id_utilizator`, `id_zbor`, `nr_bilete`) VALUES
+(1, 8, 7, 3),
+(2, 6, 15, 2),
+(3, 5, 1, 2),
+(4, 10, 4, 5),
+(5, 11, 13, 1);
 
 --
 -- Indexuri pentru tabele eliminate
 --
 
 --
--- Indexuri pentru tabele `zboruri`
+-- Indexuri pentru tabele `rezervari`
 --
-ALTER TABLE `zboruri`
-  ADD PRIMARY KEY (`id_zbor`),
-  ADD UNIQUE KEY `id_zbor` (`id_zbor`);
+ALTER TABLE `rezervari`
+  ADD PRIMARY KEY (`id_rezervare`),
+  ADD UNIQUE KEY `id_rezervare` (`id_rezervare`);
 
 --
 -- AUTO_INCREMENT pentru tabele eliminate
 --
 
 --
--- AUTO_INCREMENT pentru tabele `zboruri`
+-- AUTO_INCREMENT pentru tabele `rezervari`
 --
-ALTER TABLE `zboruri`
-  MODIFY `id_zbor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `rezervari`
+  MODIFY `id_rezervare` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
