@@ -158,7 +158,7 @@ public class RegisterForm extends JFrame {
 					String pass = new String (password.getPassword());
 					if(pass.equals(""))
 						throw new Exceptii.BlankPassword();
-					pst.setString(6,EncryptPassword.encryptPassword(pass,"MD5"));
+					pst.setString(6,EncryptPassword.encryptPassword(pass));
 					pst.executeUpdate();
 					JOptionPane.showMessageDialog(null, "Adaugare reusita");
 					new LoginForm().setVisible(true);

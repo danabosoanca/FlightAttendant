@@ -208,10 +208,7 @@ public class EditFlight extends JFrame {
 				textField_5.setText(rs.getString("locuri_disp"));
 				textField_6.setText(rs.getString("pret_bilet"));
 			}
-			
-			
-			
-			}catch (Exception e) {
+		}catch (Exception e) {
 			System.err.println(e);
 		} finally {
 			try {

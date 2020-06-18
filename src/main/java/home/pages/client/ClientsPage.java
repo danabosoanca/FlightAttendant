@@ -205,6 +205,5 @@ public class ClientsPage extends JFrame {
 					conn.close();
 			} catch (SQLException e) {}
 		}
-		
 	}
 }
