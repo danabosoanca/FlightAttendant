@@ -156,12 +156,15 @@ public class RegisterForm extends JFrame {
 					
 					pst.setString(5, username);
 					String pass = new String (password.getPassword());
+					if(pass.equals(""))
+						throw new Exceptii.BlankPassword();
 					pst.setString(6,EncryptPassword.encryptPassword(pass,"MD5"));
-					
 					pst.executeUpdate();
 					JOptionPane.showMessageDialog(null, "Adaugare reusita");
 					new LoginForm().setVisible(true);
 					dispose();
+				}catch (Exceptii.BlankPassword e) {
+					System.err.println(e);
 				}catch (Exception e) {
 					System.err.println(e);
 				} finally {
@@ -199,7 +202,7 @@ public class RegisterForm extends JFrame {
 		contentPane.add(password);
 	}
 
-	private boolean verifyUser(String u){
+	public boolean verifyUser(String u){
 		Connection conn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -209,7 +212,6 @@ public class RegisterForm extends JFrame {
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1,u);
 			ResultSet rs = pst.executeQuery();
-			
 			if(rs.next()) {
 				conn.close();
 				return true;
