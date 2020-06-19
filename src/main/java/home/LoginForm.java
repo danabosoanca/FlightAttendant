@@ -83,7 +83,7 @@ public class LoginForm extends JFrame {
 				try {
 					String user = utilizator.getText();
 					String pass = EncryptPassword.encryptPassword(new String(password.getPassword()));
-					int page = verifyLogin(user,pass);
+					int page = verifyLogin("utilizatori",user,pass);
 					if(page==1)
 						new CompanysPage().setVisible(true);
 					if(page==0)
@@ -134,12 +134,10 @@ public class LoginForm extends JFrame {
 		return id_utilizator;
 	}
 	
-	public int verifyLogin(String user,String pass)  throws MismatchData,UtilizatorInexistent{
-		Connection conn = null;
+	public int verifyLogin(String table,String user,String pass)  throws MismatchData,UtilizatorInexistent{
+		Connection conn=ConnectToDB.getConn();
 		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
-			String sql="SELECT * FROM utilizatori WHERE username=?";
+			String sql="SELECT * FROM "+table +" WHERE username=?";
 			PreparedStatement pts= conn.prepareStatement(sql);
 			pts.setString(1, user);
 			ResultSet rs = pts.executeQuery();
@@ -154,7 +152,7 @@ public class LoginForm extends JFrame {
 						return 0;
 					}
 				}
-				throw new Exceptii.MismatchData(user,pass);
+				throw new MismatchData(user,pass);
 			} else
 				throw new UtilizatorInexistent(user);
 		}catch (Exception e) {

@@ -18,6 +18,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import home.*;
 
 public class AddFlight extends JFrame {
 
@@ -132,32 +133,23 @@ public class AddFlight extends JFrame {
 		JButton btnNewButton = new JButton("Adauga");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Connection conn = null;
+				
 				try {
-					Class.forName("com.mysql.jdbc.Driver").newInstance();
-					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
-					if(!conn.isClosed())
-						System.out.println("Succesfully connected ...");
-					String sql = "INSERT INTO zboruri (oras_de_plecare,destinatie,ora_imbarcare,data_imbarcare,durata,locuri_disp,pret_bilet) values (?, ?, ?, ?, ?, ?, ?)";
-					PreparedStatement pst = conn.prepareStatement(sql);
-					pst.setString(1, textField.getText());
-					pst.setString(2, textField_1.getText());
-					pst.setString(3, txtHhmm.getText());
-					pst.setString(4, txtXxxx.getText());
-					pst.setString(5, textField_4.getText());
-					pst.setString(6, textField_5.getText());
-					pst.setString(7, textField_6.getText());
-					pst.execute();
+					String plecare,destinatie,ora,data,durata,locuri,pret;
+					plecare= textField.getText();
+					destinatie =textField_1.getText();
+					ora=txtHhmm.getText();
+					data=txtXxxx.getText();
+					durata=textField_4.getText();
+					locuri= textField_5.getText();
+					pret=textField_6.getText();
+					if(addFlight("zboruri",plecare,destinatie,ora,data,durata,locuri,pret)==true) {
 					JOptionPane.showMessageDialog(null, "Adaugare reusita");
 					dispose();
+					}
 				}catch(Exception x) {
 					System.err.println(x);
-				} finally {
-					try {
-						if(conn != null)
-							conn.close();
-					} catch (SQLException x) {}
-				}
+				} 
 			}
 		});
 		btnNewButton.setFont(new Font("Times New Roman", Font.BOLD, 16));
@@ -173,5 +165,30 @@ public class AddFlight extends JFrame {
 		btnNewButton_1.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		btnNewButton_1.setBounds(48, 292, 107, 23);
 		contentPane.add(btnNewButton_1);
+	}
+	public boolean addFlight(String tabel,String orasPlecare,String destinatie,String ora,String data,String durata,String locuri,String pret) {
+		Connection conn=ConnectToDB.getConn();
+		try {
+			String sql = "INSERT INTO " +tabel+" (oras_de_plecare,destinatie,ora_imbarcare,data_imbarcare,durata,locuri_disp,pret_bilet) values (?, ?, ?, ?, ?, ?, ?)";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, orasPlecare);
+			pst.setString(2, destinatie);
+			pst.setString(3, ora);
+			pst.setString(4, data);
+			pst.setString(5, durata);
+			pst.setString(6, locuri);
+			pst.setString(7, pret);
+			if(pst.executeUpdate()>0)
+				return true;
+			
+		}catch(Exception e) {
+			System.err.println(e);
+		}finally {
+			try {
+				if(conn!=null)
+					conn.close();
+			}catch(SQLException e) {}
+		}
+		return false;
 	}
 }

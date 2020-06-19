@@ -42,7 +42,7 @@ public class RegisterFormTest {
 				ResultSet rs = pst.executeQuery();
 				while(rs.next())
 					before++;
-				test.addUser("utilizatoritest", "test","test", "000000000", 1, "test", "test");
+				test.addUser("utilizatoritest", "client","client", "000000000", 0, "client", "client");
 				rs = pst.executeQuery();
 				while(rs.next())
 					after++;
