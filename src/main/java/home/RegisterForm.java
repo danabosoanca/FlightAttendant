@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.UIManager;
 import java.awt.Color;
+import Exceptii.*;
 
 public class RegisterForm extends JFrame {
 	private JPanel contentPane;
@@ -129,50 +130,40 @@ public class RegisterForm extends JFrame {
 		JButton btnInregistrare = new JButton("Inregistrare");
 		btnInregistrare.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Connection conn = null;
 				try {
-					Class.forName("com.mysql.jdbc.Driver").newInstance();
-					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
-					String sql = "INSERT INTO utilizatori (nume, adresa, telefon, membru, username, password) VALUES (?, ?, ?, ?, ?, ?)" ;
-					PreparedStatement pst = conn.prepareStatement(sql);
-					pst.setString(1,nume.getText());
-					pst.setString(2, adresa.getText());
-					pst.setString(3,tel.getText());
+					String name,address,phone;
+					name = nume.getText();
+					address = adresa.getText();
+					phone=tel.getText();
 					int memb;
 					if(checkMembru.isSelected()) {
 						String cod = codMembru.getText();
 						if(cod.equals("fis123")) 
 							memb = 1;
 						else
-							throw new Exceptii.CodGresit(cod);
+							throw new CodGresit(cod);
 					}
 					else
 						memb = 0;
-					pst.setInt(4, memb);
-					
 					String username = user.getText();					
 					if(verifyUser(username))
-						throw new Exceptii.UserAlreadyExists(username);
-					
-					pst.setString(5, username);
+						throw new UserAlreadyExists(username);
 					String pass = new String (password.getPassword());
 					if(pass.equals(""))
-						throw new Exceptii.BlankPassword();
-					pst.setString(6,EncryptPassword.encryptPassword(pass));
-					pst.executeUpdate();
-					JOptionPane.showMessageDialog(null, "Adaugare reusita");
-					new LoginForm().setVisible(true);
-					dispose();
-				}catch (Exceptii.BlankPassword e) {
+						throw new BlankPassword();
+					if(addUser("utilizatori",name,address,phone,memb,username,pass)==true) {
+						JOptionPane.showMessageDialog(null, "Adaugare reusita");
+						new LoginForm().setVisible(true);
+						dispose();
+					}
+				}catch(CodGresit e) {
 					System.err.println(e);
-				}catch (Exception e) {
+				}catch(UserAlreadyExists e) {
 					System.err.println(e);
-				} finally {
-					try {
-						if(conn != null)
-							conn.close();
-					} catch (SQLException e) {}
+				}catch(BlankPassword e) {
+					System.err.println(e);
 				}
+				
 			}
 		});
 		btnInregistrare.setFont(new Font("Times New Roman", Font.BOLD, 14));
@@ -223,4 +214,29 @@ public class RegisterForm extends JFrame {
 		}
 		return false;
 	}
+	
+	public boolean addUser(String table,String nume,String adresa,String tel,int memb,String username,String password) {
+		Connection conn = ConnectToDB.getConn();
+		try {
+			String sql = "INSERT INTO "+ table +" (nume, adresa, telefon, membru, username, password) VALUES (?, ?, ?, ?, ?, ?)" ;
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1,nume);
+			pst.setString(2, adresa);
+			pst.setString(3,tel);
+			pst.setInt(4, memb);
+			pst.setString(5, username);
+			pst.setString(6,EncryptPassword.encryptPassword(password));
+			if(pst.executeUpdate()>0)
+				return true;
+		}catch (Exception e) {
+			System.err.println(e);
+		} finally {
+			try {
+				if(conn != null)
+					conn.close();
+			} catch (SQLException e) {}
+		}
+		return false;
+	}
+	
 }

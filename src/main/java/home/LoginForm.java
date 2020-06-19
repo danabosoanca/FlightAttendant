@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Exceptii.*;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
@@ -77,7 +80,22 @@ public class LoginForm extends JFrame {
 		JButton btnNewButton = new JButton("Log in");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				verifyLogin();
+				try {
+					String user = utilizator.getText();
+					String pass = EncryptPassword.encryptPassword(new String(password.getPassword()));
+					int page = verifyLogin(user,pass);
+					if(page==1)
+						new CompanysPage().setVisible(true);
+					if(page==0)
+						new ClientsPage().setVisible(true);
+					dispose();
+				}catch (BlankPassword e) {
+					System.err.println(e);
+				}catch (MismatchData e) {
+					System.err.println(e);
+				}catch(UtilizatorInexistent e) {
+					System.err.println(e);
+				}
 			}
 			
 		});
@@ -116,13 +134,11 @@ public class LoginForm extends JFrame {
 		return id_utilizator;
 	}
 	
-	public void verifyLogin() {
+	public int verifyLogin(String user,String pass)  throws MismatchData,UtilizatorInexistent{
 		Connection conn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
-			String user=utilizator.getText();
-			String pass=EncryptPassword.encryptPassword(new String(password.getPassword()));
 			String sql="SELECT * FROM utilizatori WHERE username=?";
 			PreparedStatement pts= conn.prepareStatement(sql);
 			pts.setString(1, user);
@@ -131,22 +147,16 @@ public class LoginForm extends JFrame {
 				if(user.equals(rs.getString("username")) && pass.equals(rs.getString("password"))) {
 					if(rs.getInt("membru")==1) {
 						id_utilizator=Integer.parseInt(rs.getString("id_utilizator"));
-						new CompanysPage().setVisible(true);
-						dispose();
+						return 1;
 					}
-					else {
+					if(rs.getInt("membru")==0) {
 						id_utilizator=Integer.parseInt(rs.getString("id_utilizator"));
-						new ClientsPage().setVisible(true);
-						dispose();
+						return 0;
 					}
-				}else {
-					throw new Exceptii.MismatchData(user,pass);
 				}
-			}
-			else {
-				throw new Exceptii.UtilizatorInexistent(user);
-			}
-			
+				throw new Exceptii.MismatchData(user,pass);
+			} else
+				throw new UtilizatorInexistent(user);
 		}catch (Exception e) {
 			System.err.println(e);
 		} finally {
@@ -155,5 +165,6 @@ public class LoginForm extends JFrame {
 					conn.close();
 			} catch (SQLException e) {}
 		}
+		return -1;
 	}
 }
