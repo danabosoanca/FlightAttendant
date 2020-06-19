@@ -10,23 +10,19 @@ import home.EncryptPassword;
 public class TestEncrypt {
 
 	@Test
-	public void test() {
+	public void testCorrectEncrypt() throws Exception {
 		String encryption = "b957630948cfe1973842a5f97af4357a"; // luat de pe https://cryptii.com/pipes/md5-hash
-		try {
-			assertEquals(encryption,EncryptPassword.encryptPassword("buna"));
-		} catch (BlankPassword e) {
-			e.printStackTrace();
-		}
+		assertEquals(encryption,EncryptPassword.encryptPassword("buna"));
 	}
 	
 	@Test
-	public void test1() {
+	public void testWrongEncrypt() throws Exception {
 		String encryption = "b957630948cfe1973842a5f97af4357a"; // luat de pe https://cryptii.com/pipes/md5-hash
-		try {
-			assertNotEquals(encryption,EncryptPassword.encryptPassword("Buna"));
-		} catch (BlankPassword e) {
-			e.printStackTrace();
-		}
+		assertNotEquals(encryption,EncryptPassword.encryptPassword("Buna"));
 	}
 
+	@Test(expected = BlankPassword.class)
+	public void testBlankPass() throws Exception{
+		EncryptPassword.encryptPassword("");
+	}
 }

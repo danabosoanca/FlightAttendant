@@ -49,28 +49,14 @@ public class Reservation extends JFrame {
 		JButton btnAccepta = new JButton("Accepta");
 		btnAccepta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Connection conn = null;
-				try {
-					Class.forName("com.mysql.jdbc.Driver").newInstance();
-					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
-					String sql = "INSERT INTO rezervari (id_utilizator, id_zbor, nr_bilete) VALUES (?, ?, ?)" ;
-					PreparedStatement pst = conn.prepareStatement(sql);
-					pst.setInt(1,LoginForm.getUtilizator());
-					pst.setString(2, String.valueOf(id_zbor));
-					pst.setString(3,String.valueOf(nr_bilete));
-					pst.executeUpdate();
-					ClientsPage.updateFlight(nr_bilete, id_zbor);
-					JOptionPane.showMessageDialog(null, "Rezervare reusita");
-					new ClientsPage().setVisible(true);
-					dispose();
-				}catch (Exception e1) {
-					System.err.println(e);
-				}finally {
-					try {
-						if(conn != null)
-							conn.close();
-					} catch (SQLException x) {}
-				}
+				int utilizator = LoginForm.getUtilizator();
+				String zbor = String.valueOf(id_zbor);
+				String bilete = String.valueOf(nr_bilete);
+				addReservation("rezervari",utilizator,zbor,bilete);
+				ClientsPage.updateFlight("zboruri",nr_bilete, id_zbor);
+				JOptionPane.showMessageDialog(null, "Rezervare reusita");
+				new ClientsPage().setVisible(true);
+				dispose();
 				
 			}	
 			
@@ -115,6 +101,26 @@ public class Reservation extends JFrame {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	
+	public void addReservation(String tabel,int utilizator,String zbor, String bilete) {
+		Connection conn = ConnectToDB.getConn();
+		try {
+			String sql = "INSERT INTO "+ tabel +" (id_utilizator, id_zbor, nr_bilete) VALUES (?, ?, ?)" ;
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1,utilizator);
+			pst.setString(2, zbor);
+			pst.setString(3,bilete);
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(conn != null)
+					conn.close();
+			} catch (SQLException e) {}
 		}
 	}
 }

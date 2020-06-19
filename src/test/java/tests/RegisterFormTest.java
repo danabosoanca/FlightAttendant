@@ -12,18 +12,14 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import home.ConnectToDB;
 import home.RegisterForm;
 
 public class RegisterFormTest {
 	private static Connection conn = null;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
-		} catch (Exception e) {
-			System.err.println(e);
-		}
+			conn=ConnectToDB.getConn();
 	}
 
 	@AfterClass
@@ -32,8 +28,7 @@ public class RegisterFormTest {
 	}
 
 	@Test
-	public void addUserTest() {
-			try {
+	public void addUserTest() throws Exception{
 				RegisterForm test=new RegisterForm();
 				int before=0,after=0;
 				String sql = "SELECT * FROM utilizatoritest";
@@ -47,8 +42,5 @@ public class RegisterFormTest {
 				while(rs.next())
 					after++;
 				assertNotEquals(before,after);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 	}
 }
