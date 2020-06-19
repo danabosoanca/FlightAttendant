@@ -32,8 +32,7 @@ public class RegisterFormTest {
 	}
 
 	@Test
-	public void addUserTest() {
-			try {
+	public void addUserTest() throws Exception{
 				RegisterForm test=new RegisterForm();
 				int before=0,after=0;
 				String sql = "SELECT * FROM utilizatoritest";
@@ -47,8 +46,5 @@ public class RegisterFormTest {
 				while(rs.next())
 					after++;
 				assertNotEquals(before,after);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 	}
 }
