@@ -33,7 +33,7 @@ public class DisplayFlight extends JFrame {
 	 * Create the frame.
 	 */
 	public DisplayFlight(final int id_zbor) {
-		setTitle("Reservation Form");
+		setTitle("Display Flight");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 413, 464);
 		contentPane = new JPanel();
