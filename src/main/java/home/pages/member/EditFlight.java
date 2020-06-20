@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import home.ConnectToDB;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
@@ -86,32 +89,18 @@ public class EditFlight extends JFrame {
 		JButton btnEditeaza = new JButton("Editeaza");
 		btnEditeaza.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Connection conn = null;
-				try {
-					Class.forName("com.mysql.jdbc.Driver").newInstance();
-					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
-					if(!conn.isClosed())
-						System.out.println("Succesfully connected ...");
-					String sql = "update zboruri set oras_de_plecare = ?, destinatie = ?, ora_imbarcare = ?, data_imbarcare = ?, durata = ?, locuri_disp = ?, pret_bilet = ? where id_zbor = " + id_zbor;
-					PreparedStatement pst = conn.prepareStatement(sql);
-					pst.setString(1,textField.getText());
-					pst.setString(2, textField_1.getText());
-					pst.setString(3, textField_2.getText());
-					pst.setString(4, textField_3.getText());
-					pst.setString(5, textField_4.getText());
-					pst.setString(6, textField_5.getText());
-					pst.setString(7, textField_6.getText());
-					pst.executeUpdate();
-					JOptionPane.showMessageDialog(null, "Modificare reusita!");
-				}catch(Exception e) {
-					System.err.println(e);
-				} finally {
-					try {
-						if(conn != null)
-							conn.close();
-					} catch (SQLException e) {}
-				}
 				
+				String oras,destinatie,ora,data,durata,locuri,pret;
+				oras = textField.getText();
+				destinatie = textField_1.getText();
+				ora = textField_2.getText();
+				data = textField_3.getText();
+				durata = textField_4.getText();
+				locuri = textField_5.getText();
+				pret = textField_6.getText();
+				boolean ok = editFlight("zboruri",oras,destinatie,ora,data,durata,locuri,pret,id_zbor);
+				if(ok == true)
+					JOptionPane.showMessageDialog(null, "Modificare reusita!");	
 			}
 		});
 		btnEditeaza.setForeground(UIManager.getColor("ToolTip.foreground"));
@@ -169,22 +158,8 @@ public class EditFlight extends JFrame {
 		JButton btnSterge_1 = new JButton("Sterge");
 		btnSterge_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Connection conn = null;
-				try {
-					Class.forName("com.mysql.jdbc.Driver").newInstance();
-					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
-					if(!conn.isClosed())
-						System.out.println("Succesfully connected ...");
-					String sql = "delete from zboruri where id_zbor=" + id_zbor;
-					JOptionPane.showMessageDialog(null, "Stergere reusita");
-				}catch(Exception e) {
-					System.err.println(e);
-				} finally {
-					try {
-						if(conn != null)
-							conn.close();
-					} catch (SQLException e) {}
-				}
+				deleteFlight("zboruri",id_zbor);
+				JOptionPane.showMessageDialog(null, "Stergere reusita");
 			}
 		});
 		btnSterge_1.setForeground(UIManager.getColor("ToolTip.foreground"));
@@ -209,6 +184,53 @@ public class EditFlight extends JFrame {
 				textField_6.setText(rs.getString("pret_bilet"));
 			}
 		}catch (Exception e) {
+			System.err.println(e);
+		} finally {
+			try {
+				if(conn != null)
+					conn.close();
+			} catch (SQLException e) {}
+		}
+	}
+	
+	public boolean editFlight(String table,String oras, String destinatie,String ora,String data, String durata, String locuri,String pret,int id_zbor) {
+		Connection conn = ConnectToDB.getConn();
+		try {
+			if(!conn.isClosed())
+				System.out.println("Succesfully connected ...");
+			String sql = "update "+ table +" set oras_de_plecare = ?, destinatie = ?, ora_imbarcare = ?, data_imbarcare = ?, durata = ?, locuri_disp = ?, pret_bilet = ? where id_zbor = " + id_zbor;
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1,oras);
+			pst.setString(2,destinatie);
+			pst.setString(3,ora);
+			pst.setString(4,data);
+			pst.setString(5,durata);
+			pst.setString(6,locuri);
+			pst.setString(7,pret);
+			int i = pst.executeUpdate();
+			if(i>0)
+				return true;
+		}catch(Exception e) {
+			System.err.println(e);
+		} finally {
+			try {
+				if(conn != null)
+					conn.close();
+			} catch (SQLException e) {}
+		}
+		return false;
+	}
+	
+	public void deleteFlight(String table,int id_zbor) {
+		Connection conn = ConnectToDB.getConn();
+		try {
+			if(!conn.isClosed())
+				System.out.println("Succesfully connected ...");
+			String sql = "delete from "+table+" where id_zbor=" + id_zbor;
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.execute();
+				
+		}catch(Exception e) {
 			System.err.println(e);
 		} finally {
 			try {

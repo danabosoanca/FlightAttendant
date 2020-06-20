@@ -12,6 +12,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import home.ConnectToDB;
 import home.pages.member.AddFlight;
 
 public class AddFlightTest {
@@ -19,12 +20,7 @@ public class AddFlightTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
-		} catch (Exception e) {
-			System.err.println(e);
-		}
+		conn=ConnectToDB.getConn();
 	}
 
 	@AfterClass
@@ -33,8 +29,7 @@ public class AddFlightTest {
 	}
 
 	@Test
-	public void addFlightTest() {
-		try {
+	public void addFlightTest() throws Exception{
 			AddFlight test=new AddFlight();
 			int before=0,after=0;
 			String sql = "SELECT * FROM zboruritest";
@@ -48,10 +43,7 @@ public class AddFlightTest {
 			while(rs.next())
 				after++;
 			assertNotEquals(before,after);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		}
 	}
+}
 
 
