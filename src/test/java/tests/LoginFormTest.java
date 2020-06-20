@@ -9,10 +9,6 @@ import java.sql.ResultSet;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import Exceptii.BlankPassword;
-import Exceptii.MismatchData;
-import Exceptii.UtilizatorInexistent;
 import home.*;
 
 public class LoginFormTest {
@@ -42,13 +38,13 @@ public class LoginFormTest {
 	
 	@Test
 	public void testGetUtilizator() throws Exception {
-		int id=0; LoginForm test=new LoginForm();
+		int id=0; 
 		String sql = "SELECT * FROM utilizatoritest" ;
 		PreparedStatement pst = conn.prepareStatement(sql);
 		ResultSet rs=pst.executeQuery();
 		if(rs.next())
 			id = rs.getInt("id_utilizator");
-		test.getUtilizator();
+		LoginForm.getUtilizator();
 		//assertEquals(1,id);
 		assertNotEquals(10,id);
 	}
@@ -56,8 +52,8 @@ public class LoginFormTest {
 	/*@Test(expected = MismatchData.class)
 	public void testMismatchData() throws Exception{
 		LoginForm test=new LoginForm();
-		test.verifyLogin("utilizatoritest", "client", EncryptPassword.encryptPassword("parola"));*/
-	}
+		test.verifyLogin("utilizatoritest", "client", EncryptPassword.encryptPassword("parola"));
+	}*/}
 	
 	/*@Test(expected = UtilizatorInexistent.class)
 	public void testUtilizatorInexistent() throws Exception{

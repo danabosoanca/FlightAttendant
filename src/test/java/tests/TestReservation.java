@@ -11,7 +11,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import home.ConnectToDB;
-import home.RegisterForm;
 import home.pages.client.Reservation;
 
 public class TestReservation {

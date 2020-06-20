@@ -24,5 +24,6 @@ public class TestEncrypt {
 	@Test(expected = BlankPassword.class)
 	public void testBlankPass() throws Exception{
 		EncryptPassword.encryptPassword("");
+		
 	}
 }

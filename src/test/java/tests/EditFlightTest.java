@@ -54,7 +54,7 @@ public class EditFlightTest {
 		rs = pst.executeQuery();
 		while(rs.next())
 			after++;
-		assertNotEquals(before,after);
+		assertEquals(before,after);
 	}
 
 	@Test

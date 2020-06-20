@@ -28,13 +28,12 @@ public class ClientsPageTest {
 	@Test
 	public void testUpdateFlight() throws Exception{
 		int before=0,after=0;
-		ClientsPage test = new ClientsPage();
 		String sql = "SELECT * FROM zboruritest WHERE id_zbor = 1" ;
 		PreparedStatement pst = conn.prepareStatement(sql);
 		ResultSet rs=pst.executeQuery();
 		if(rs.next())
 			before = rs.getInt("locuri_disp");
-		test.updateFlight("zboruritest", 10, 1);
+		ClientsPage.updateFlight("zboruritest", 10, 1);
 		rs = pst.executeQuery();
 		if(rs.next())
 			after=rs.getInt("locuri_disp");

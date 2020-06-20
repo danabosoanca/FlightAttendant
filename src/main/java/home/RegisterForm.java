@@ -30,7 +30,7 @@ public class RegisterForm extends JFrame {
 	private JTextField nume;
 	private JTextField tel;
 	private JTextField user;
-	private JTextField codMembru;
+	public JTextField codMembru;
 	private JPasswordField password;
 
 	/**
