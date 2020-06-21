@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Gazdă: 127.0.0.1
--- Timp de generare: mai 24, 2020 la 03:27 PM
+-- Timp de generare: iun. 20, 2020 la 02:43 PM
 -- Versiune server: 10.4.11-MariaDB
--- Versiune PHP: 7.2.28
+-- Versiune PHP: 7.4.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -43,26 +42,28 @@ CREATE TABLE `utilizatori` (
 --
 
 INSERT INTO `utilizatori` (`nume`, `adresa`, `telefon`, `membru`, `username`, `password`, `id_utilizator`) VALUES
-(' Valentin Popescu', 'Timisoara, Romania', '0767472019', 0, 'valentin_popescu', '1e2443f36131013ed9801', 1),
-(' Maria Georgescu', 'Craiova, Romania', '0732190621', 0, 'maria_georgescu', '6b0e5e8be332236bf5', 2),
-(' Andrei Dumitru', 'Bucharest, Romania', '0756907612', 0, 'andrei_dumitru', '210b32ba102fc225454f', 3),
-(' Adrian Lazar', 'Sibiu, Romania', '0722962478', 0, 'adrian_lazar', 'c252c318360a2aa001a43c', 4),
-('David Smith', 'London, UK', '08001111', 0, 'david_smith', '7522c08b8dd3d72a0a47', 5),
-('Emily Moore', 'Tel Aviv, Israel', '050986543', 0, 'emily_moore', '0a25a2f23379681f3bf34', 6),
-('Adela Alvarez', 'Madrid, Spain', '007649876', 0, 'adela_alvarez', 'bd4cad1b247080d1f50b', 7),
-('Berta Alonzo', 'Ibiza, Spain', '564532907', 0, 'berta_alonzo', '3170539917a16334341222', 8),
-(' Sophie Parker', 'Geneva, Switzerland', '085644920', 0, 'sophie_parker', '06c2eb21e932f3e20ac042', 9),
-('Thomas Koch', 'Dortmund, Germany', '0700437658', 0, 'thomas_koch', '2fe52f018271f3d35668a1', 10),
-('Norris Martin', 'Paris, France', '0140250808', 0, 'norris_martin', '44e74e694006373f3', 11),
-('Francisc Bernard', 'Nice, Paris', '3387201245', 1, 'francisc_bernard', '38e8d36dbca4150d8', 12),
-('Lee Müller', 'Berlin, Germany', '0748327502', 1, 'lee_muller', '0384f2078292fb151a7', 13),
-('Harris Griffin', 'Baku,  Azerbaijan', '03457825', 1, 'harris_griffin', '52cec415020aec7b071101', 14),
-('Daniel De Alba', 'Barcelona, Spain', '54863078', 1, 'daniel_dealba', 'a7381cf001c1ba69346e', 15),
-('Melanie Williams', 'Liverpool, UK', '0873654', 1, 'melanie_williams', '3a2cd03b69d09375e62', 16),
-('Mirela Moldovan', 'Bucharest, Romania', '0746853245', 1, 'mirela_moldovan', '643afa8050a0b2a3441b', 17),
-('Marius Tudor', 'Constanta, Romania', '0725468932', 1, 'marius_tudor', '4a19790052341f5b0f09', 18),
-('Alina Iordache', 'Brasov, Romania', '0743269874', 1, 'alina_iordache', '1a337f989133e3532c7f', 19),
-('Ryan Berg', 'Oslo, Norway', '00149632', 1, 'ryan_berg', '0070c07430f30c1c85591a', 20);
+('Valentin Popescu', 'Timisoara, Romania', '0767472019', 0, 'valentin_popescu', 'dee484ff7366319331b0d36e9d0958c1', 1),
+('Maria Georgescu', 'Craiova, Romania', '0732190621', 0, 'maria_georgescu', '263bce650e68ab4e23f28263760b9fa5', 2),
+('Andrei Dumitru', 'Bucharesc, Romania', '0756907612', 0, 'andrei_dumitru', 'b2d09b73eb5ad0228f9cb2e51485a45f', 3),
+('Adrian Lazar', 'Sibiu, Romania', '0722962478', 0, 'adrian_lazar', '8c4205ec33d8f6caeaaaa0c10a14138c', 4),
+('David Smith', 'London, UK', '08001111', 0, 'david_smith', '172522ec1028ab781d9dfd17eaca4427', 5),
+('Emily Moore', 'Tel Aviv, Israel', '050986543', 0, 'emily_moore', 'b02ae5aaefe3f7090668df034b0f2324', 6),
+('Adela Alvarez', 'Madrid, Spain', '007649876', 0, 'adela_alvarez', 'bbad14bc2a2ddb9244a72058cddf15cb', 7),
+('Berta Alonzo', 'Ibiza, Spain', '564532907', 0, 'berta_alonzo', '43d75035f949d7bad66383b46374d2e2', 8),
+('Sophie Parker', 'Geneva, Switzerland', '085644920', 0, 'sophie_parker', '6988ec3aba1eaddf2435141bf10487ca', 9),
+('Thomas Koch', 'Dortmund, Germany', '0700437658', 0, 'thomas_koch', 'ef6e65efc188e7dffd7335b646a85a21', 10),
+('Norris Martin', 'Paris, France', '0140250808', 0, 'norris_martin', '44041e67a48e7629148000666397ff53', 11),
+('Client', 'Orsova, Romania', '0789543021', 0, 'client', '62608e08adc29a8d6dbc9754e659f125', 12),
+('Francisc Bernard', 'Nice, Paris', '3387201245', 1, 'francisc_bernard', 'f87e388d33364d9b1cba549175106da8', 13),
+('Lee Muller', 'Berlin, Germany', '0748327502', 1, 'lee_muller', 'b0f8b49f22c718e9924f5b1165111a67', 14),
+('Harris Griffin', 'Baku, Azerbaijan', '03457825', 1, 'harris_griffin', '65ec1e9ca4d5c2ca4ebc071b2047d1c1', 15),
+('Daniel De Alba', 'Barcelona, Spain', '54863078', 1, 'daniel_dealba', '07a88e756847244f3496f63f473d6085', 16),
+('Melanie Williams', 'Liverpool, UK', '0873654', 1, 'melanie_williams', '73aaec6dc33b96597d8019f7553e96a2', 17),
+('Mirela Moldovan', 'Bucharest, Romania', '0746853245', 1, 'mirela_moldovan', '2604fa2f1a58c5ca204b123a937424db', 18),
+('Marius Tudor', 'Constanta, Romania', '0725468932', 1, 'marius_tudor', '242aa1a97769109065e3b4df359bcfc9', 19),
+('Alina Iordache', 'Brasov, Romania', '0743269874', 1, 'alina_iordache', '914a23f72f590809d3fe431573ecb71f', 20),
+('Ryan Berg', 'Oslo, Norway', '00149632', 1, 'ryan_berg', '10c7ccc7a4f0aff03c915c485565b9da', 21),
+('Admin', 'Severin', '0765491029', 1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 22);
 
 --
 -- Indexuri pentru tabele eliminate
@@ -83,7 +84,7 @@ ALTER TABLE `utilizatori`
 -- AUTO_INCREMENT pentru tabele `utilizatori`
 --
 ALTER TABLE `utilizatori`
-  MODIFY `id_utilizator` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_utilizator` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -17,6 +17,8 @@ import javax.swing.table.TableModel;
 
 import com.mysql.jdbc.Statement;
 
+import home.ConnectToDB;
+
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
@@ -179,11 +181,11 @@ public class ClientsPage extends JFrame {
 		comboBox.setBounds(433, 438, 179, 22);
 		contentPane.add(comboBox);
 	}
-	public static void updateFlight(int locuri, int id_zbor) {
+	public static void updateFlight(String tabel,int locuri, int id_zbor) {
 		Connection conn=null;
 		try {
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
-		String sql = "SELECT * FROM zboruri WHERE id_zbor="+ id_zbor ;
+		conn = ConnectToDB.getConn();
+		String sql = "SELECT * FROM "+ tabel +" WHERE id_zbor="+ id_zbor ;
 		PreparedStatement pst = conn.prepareStatement(sql);
 		ResultSet rs=pst.executeQuery();
 		int locuri_ramase=0;
@@ -193,7 +195,7 @@ public class ClientsPage extends JFrame {
 		else {
 			JOptionPane.showMessageDialog(null, "Zborul ales nu exista");
 		}
-		String sql1="UPDATE zboruri SET locuri_disp = "+locuri_ramase+" WHERE id_zbor = "+id_zbor;
+		String sql1="UPDATE "+ tabel +" SET locuri_disp = "+locuri_ramase+" WHERE id_zbor = "+id_zbor;
 		java.sql.Statement pst1=conn.createStatement();
 		int rs1=pst1.executeUpdate(sql1);
 		}
@@ -205,6 +207,5 @@ public class ClientsPage extends JFrame {
 					conn.close();
 			} catch (SQLException e) {}
 		}
-		
 	}
 }

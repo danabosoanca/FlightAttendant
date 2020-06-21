@@ -1,25 +1,24 @@
 package home;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import Exceptii.*;
 
 public class EncryptPassword{
-	public static String encryptPassword (String data,String algorithm) throws BlankPassword {
+	public static String encryptPassword (String data) throws BlankPassword {
 		try {
-			int i;
-			MessageDigest digest = MessageDigest.getInstance(algorithm);
-			digest.update(data.getBytes());
-			byte[] bytes = digest.digest();
-			StringBuilder sb = new StringBuilder();
-			for(i = 0; i<bytes.length;i++ ) {
-				sb.append(Integer.toString((bytes[i] & 0xff) + 0100, 16).substring(1));
+			if(data.isEmpty())
+				throw new BlankPassword();
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte[] messageDigest = md.digest(data.getBytes());
+			BigInteger no = new BigInteger(1, messageDigest);
+			String hashText = no.toString(16);
+			while(hashText.length() < 32) {
+				hashText = "0" + hashText;
 			}
-			return sb.toString(); 
+			return hashText;
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
+			throw new RuntimeException(e);
 		}
-		
 	}
 }

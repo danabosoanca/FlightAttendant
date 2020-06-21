@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import home.ConnectToDB;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.sql.Connection;
@@ -22,7 +25,6 @@ import java.awt.event.ActionEvent;
 public class DisplayInformation extends JFrame {
 
 	private JPanel contentPane;
-
 	/**
 	 * Launch the application.
 	 */
@@ -86,30 +88,29 @@ public class DisplayInformation extends JFrame {
 		btnInapoi.setBounds(170, 191, 97, 25);
 		contentPane.add(btnInapoi);
 	
-	Connection conn=null;
-	try {
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/facultate","root","");
-		String sql = "SELECT * FROM utilizatori  WHERE id_utilizator =" + id_utilizator;
-		PreparedStatement pst = conn.prepareStatement(sql);
-		ResultSet rs = pst.executeQuery();
-		
-		if(rs.next()) {
-			nume.setText(rs.getString("nume"));
-			adresa.setText(rs.getString("adresa"));
-			numar.setText(rs.getString("telefon"));
-			
-		}
-		
-		
-		
-		}catch (Exception e) {
-		System.err.println(e);
-	} finally {
+		Connection conn=ConnectToDB.getConn();
 		try {
-			if(conn != null)
-				conn.close();
-		} catch (SQLException e) {}
+			String sql = "SELECT * FROM utilizatori  WHERE id_utilizator =" + id_utilizator;
+			PreparedStatement pst = conn.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			
+			if(rs.next()) {
+				nume.setText(rs.getString("nume"));
+				adresa.setText(rs.getString("adresa"));
+				numar.setText(rs.getString("telefon"));
+				
+			}
+			
+			
+			
+			}catch (Exception e) {
+			System.err.println(e);
+		} finally {
+			try {
+				if(conn != null)
+					conn.close();
+			} catch (SQLException e) {}
+		}
 	}
-}}
+}
 
