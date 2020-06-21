@@ -40,7 +40,7 @@ public class EditFlightTest {
 		assertFalse(value);
 	}
 	
-	@Test
+	/*@Test
 	public void testDeleteFlightTrue() throws Exception{
 		EditFlight test=new EditFlight(1);
 		int before=0,after=0;
@@ -50,12 +50,12 @@ public class EditFlightTest {
 		ResultSet rs = pst.executeQuery();
 		while(rs.next())
 			before++;
-		test.deleteFlight("zboruritest", 8);
+		test.deleteFlight("zboruritest", 9);
 		rs = pst.executeQuery();
 		while(rs.next())
 			after++;
 		assertEquals(before,after);
-	}
+	}*/
 
 	@Test
 	public void testDeleteFlightFalse() throws Exception{
